@@ -1,21 +1,4 @@
 
-let statusStore = [];
-
-
-function countingMachine(buttonId, notAppliedId, status, counterId){
-    document.getElementById(buttonId).addEventListener("click", function(){
-        document.getElementById(buttonId).innerText = status;
-        statusStore.push(status);
-        
-        let count = 0;
-        for (let item of statusStore){
-            if (item === status) count++;
-        }
-        document.getElementById(counterId).innerText = count;
-        document.getElementById(notAppliedId).innerText = status;
-    })
-}
-
 countingMachine("interview-btn", "not-applied1", "INTERVIEW", "total-interview");
 countingMachine("rejected-btn", "not-applied1", "REJECTED", "total-reject");
 
@@ -40,3 +23,18 @@ countingMachine("rejected-btn7", "not-applied7", "REJECTED", "total-reject");
 countingMachine("interview-btn8", "not-applied8", "INTERVIEW", "total-interview");
 countingMachine("rejected-btn8", "not-applied8", "REJECTED", "total-reject");
 
+// hide section
+
+function hideSection() {
+    document.getElementById("available-interview").addEventListener("click", function(){
+        showOnly("mobile-first");
+        showOnly("webflow");
+        showOnly("dataviz");
+        showOnly("cloudfirst");
+        showOnly("innovation");
+        showOnly("megacorp");
+        showOnly("startup");
+        showOnly("techcorp");
+    })
+}
+hideSection();
