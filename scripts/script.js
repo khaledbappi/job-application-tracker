@@ -1,40 +1,47 @@
+let interviewList = [];
+let rejectedList = [];
 
-countingMachine("interview-btn", "not-applied1", "INTERVIEW", "total-interview");
-countingMachine("rejected-btn", "not-applied1", "REJECTED", "total-reject");
+let totalCount = document.getElementById("totalCount");
+let interviewCount = document.getElementById("interviewCount");
+let rejectedCount = document.getElementById("rejectedCount");
 
-countingMachine("interview-btn2", "not-applied2", "INTERVIEW", "total-interview");
-countingMachine("rejected-btn2", "not-applied2", "REJECTED", "total-reject");
+let allCardsCount = document.getElementById("all-cards");
+const mainContainer = document.querySelector("main");
 
-countingMachine("interview-btn3", "not-applied3", "INTERVIEW", "total-interview");
-countingMachine("rejected-btn3", "not-applied3", "REJECTED", "total-reject");
-
-countingMachine("interview-btn4", "not-applied4", "INTERVIEW", "total-interview");
-countingMachine("rejected-btn4", "not-applied4", "REJECTED", "total-reject");
-
-countingMachine("interview-btn5", "not-applied5", "INTERVIEW", "total-interview");
-countingMachine("rejected-btn5", "not-applied5", "REJECTED", "total-reject");
-
-countingMachine("interview-btn6", "not-applied6", "INTERVIEW", "total-interview");
-countingMachine("rejected-btn6", "not-applied6", "REJECTED", "total-reject");
-
-countingMachine("interview-btn7", "not-applied7", "INTERVIEW", "total-interview");
-countingMachine("rejected-btn7", "not-applied7", "REJECTED", "total-reject");
-
-countingMachine("interview-btn8", "not-applied8", "INTERVIEW", "total-interview");
-countingMachine("rejected-btn8", "not-applied8", "REJECTED", "total-reject");
-
-// hide section
-
-function hideSection() {
-    document.getElementById("available-interview").addEventListener("click", function(){
-        showOnly("mobile-first");
-        showOnly("webflow");
-        showOnly("dataviz");
-        showOnly("cloudfirst");
-        showOnly("innovation");
-        showOnly("megacorp");
-        showOnly("startup");
-        showOnly("techcorp");
-    })
+function calculateCount(){
+    totalCount.innerText = allCardsCount.children.length;
+    interviewCount.innerText = interviewList.length;
+    rejectedCount.innerText = rejectedList.length;
 }
-hideSection();
+calculateCount();
+
+
+
+
+// button toggle
+
+const allFilterBtn = document.getElementById("all-filter-btn");
+const allInterviewBtn = document.getElementById("interview-filter-btn");
+const allRejectedBtn = document.getElementById("rejected-filter-btn");
+
+function togglestyle (id){
+    allFilterBtn.classList.remove('bg-blue-500', 'text-white');
+    allInterviewBtn.classList.remove('bg-blue-500', 'text-white');
+    allRejectedBtn.classList.remove('bg-blue-500', 'text-white');
+
+
+    allFilterBtn.classList.add('bg-white', 'text-gray-400');
+    allInterviewBtn.classList.add('bg-white', 'text-gray-400');
+    allRejectedBtn.classList.add('bg-white', 'text-gray-400');
+    
+    const selected = document.getElementById(id);
+    selected.classList.remove('bg-white', 'text-gray-400');
+    selected.classList.add('bg-blue-500', 'text-white');
+} 
+
+
+mainContainer.addEventListener('click', function(event){
+    const parentNode = event.target.parentNode.parentNode;
+    const interviewText = parentNode.querySelector('.interview-btn').innerText;
+    const rejectText = parentNode.querySelector('.rejected-btn').innerText;
+})
