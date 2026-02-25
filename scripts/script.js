@@ -1,5 +1,6 @@
 let interviewList = [];
 let rejectedList = [];
+let deletedCards = [];
 
 const mainContainer = document.querySelector("main");
 let totalCount = document.getElementById("totalCount");
@@ -8,14 +9,22 @@ let interviewCount = document.getElementById("interviewCount");
 let rejectedCount = document.getElementById("rejectedCount");
 let noJobs = document.getElementById("no-jobs");
 
+// delete cards
+document.addEventListener("click", function (del) {
+    if (del.target.classList.contains('delete-btn')) {
+        const deleteNode = del.target.parentNode.parentNode;
+        deleteNode.remove();
+        deleteNode.classList.add("hidden");
+        calculateCount();
+    }
+})
 
 function calculateCount() {
-    totalCount.innerText = allCardsCount.children.length;
     interviewCount.innerText = interviewList.length;
     rejectedCount.innerText = rejectedList.length;
+    const deletedCardCount = deletedCards.length;
+    totalCount.innerText = allCardsCount.children.length;
 }
-
-
 
 // button toggle
 
@@ -48,10 +57,10 @@ function togglestyle(id) {
         filterSection.classList.add("hidden");
         noJobs.classList.add("hidden");
     }
-    else if(id == "rejected-filter-btn") {
+    else if (id == "rejected-filter-btn") {
         allCardsCount.classList.add("hidden");
         filterSection.classList.remove("hidden");
-         noJobs.classList.add("hidden");
+        noJobs.classList.add("hidden");
     }
 }
 
@@ -110,7 +119,7 @@ mainContainer.addEventListener('click', function (event) {
     }
 
 
-     function renderRejected() {
+    function renderRejected() {
         filterSection.innerHTML = "";
         for (let rejected of rejectedList) {
             div = document.createElement('div');
