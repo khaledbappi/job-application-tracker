@@ -1,6 +1,7 @@
 let interviewList = [];
 let rejectedList = [];
-let deletedCards = [];
+
+
 
 const mainContainer = document.querySelector("main");
 let totalCount = document.getElementById("totalCount");
@@ -9,22 +10,23 @@ let interviewCount = document.getElementById("interviewCount");
 let rejectedCount = document.getElementById("rejectedCount");
 let noJobs = document.getElementById("no-jobs");
 
+
+// calculation
+
+function calculateCount() {
+    interviewCount.innerText = interviewList.length;
+    rejectedCount.innerText = rejectedList.length;
+    totalCount.innerText = allCardsCount.children.length;
+}
+
 // delete cards
 document.addEventListener("click", function (del) {
     if (del.target.classList.contains('delete-btn')) {
         const deleteNode = del.target.parentNode.parentNode;
         deleteNode.remove();
-        deleteNode.classList.add("hidden");
         calculateCount();
     }
 })
-
-function calculateCount() {
-    interviewCount.innerText = interviewList.length;
-    rejectedCount.innerText = rejectedList.length;
-    const deletedCardCount = deletedCards.length;
-    totalCount.innerText = allCardsCount.children.length;
-}
 
 // button toggle
 
@@ -49,18 +51,18 @@ function togglestyle(id) {
 
     if (id == "interview-filter-btn") {
         allCardsCount.classList.add("hidden");
-        filterSection.classList.remove("hidden");
         noJobs.classList.remove("hidden");
+        filterSection.classList.remove("hidden");
     }
     else if (id == "all-filter-btn") {
         allCardsCount.classList.remove("hidden");
-        filterSection.classList.add("hidden");
         noJobs.classList.add("hidden");
+        filterSection.classList.add("hidden");
     }
     else if (id == "rejected-filter-btn") {
         allCardsCount.classList.add("hidden");
+        noJobs.classList.remove("hidden");
         filterSection.classList.remove("hidden");
-        noJobs.classList.add("hidden");
     }
 }
 
@@ -68,38 +70,40 @@ function togglestyle(id) {
 mainContainer.addEventListener('click', function (event) {
     if (event.target.classList.contains('interview-btn')) {
         const parentNode = event.target.parentNode.parentNode;
-        const companyName = parentNode.querySelector('.company-name').innerText;
         parentNode.querySelector('.not-applied').innerText = 'INTERVIEW'
-        const cardInfo = { companyName };
-        console.log(cardInfo);
-        const matchinterviewArray = interviewList.find(item => item.companyName == cardInfo.companyName)
-        if (!matchinterviewArray) {
-            interviewList.push(cardInfo);
+        const companyName = parentNode.querySelector('.company-name').innerText;
+        const cardInfoInterviewed = { companyName };
+        const matchInterviewArray = interviewList.find(item => item.companyName === cardInfoInterviewed.companyName);
+        if (!matchInterviewArray) {
+            interviewList.push(cardInfoInterviewed);
         }
-        renderInterview()
+        renderInterviewed()
         calculateCount();
     }
+
     else if (event.target.classList.contains('rejected-btn')) {
         const parentNode = event.target.parentNode.parentNode;
-        const companyName = parentNode.querySelector('.company-name').innerText;
         parentNode.querySelector('.not-applied').innerText = 'REJECTED'
-        const cardInfo = { companyName };
-        console.log(cardInfo);
-        const matchRejecedArray = rejectedList.find(item => item.companyName == cardInfo.companyName)
+        const companyName = parentNode.querySelector('.company-name').innerText;
+        const cardInfoRejected = { companyName };
+        const matchRejecedArray = rejectedList.find(item => item.companyName === cardInfoRejected.companyName)
         if (!matchRejecedArray) {
-            rejectedList.push(cardInfo);
+            rejectedList.push(cardInfoRejected);
         }
         renderRejected()
         calculateCount();
     }
 
-    function renderInterview() {
+    // render interviewed 
+
+    function renderInterviewed() {
         filterSection.innerHTML = "";
+
         for (let interview of interviewList) {
-            div = document.createElement('div');
-            div.className = "flex justify-between bg-white rounded-md p-6";
+            const div = document.createElement('div');
+            div.className = "flex justify-between bg-white rounded-md p-6 my-5";
             div.innerHTML = `<div class="card">
-                    <h1 class="company-name">Mobile First Corp</h1>
+                    <h1 class="company-name">${interview.companyName}</h1>
                     <h4 class="text-gray-400">React Native Developer</h4>
                     <p class="text-gray-400 text-xs py-3">Remote &middot; Full Time &middot; $1,30,000 - &1,50,000 </p>
                     <button class="not-applied w-25 bg-[#EEF4FF] text-[#002C5C] text-[10px] p-2 rounded-sm">NOT
@@ -113,19 +117,20 @@ mainContainer.addEventListener('click', function (event) {
                         <button
                             class="rejected-btn w-16 border-[1px] cursor-pointer text-red-500 rounded-sm text-[7px] p-1">REJECTED</button>
                     </div>`
-            filterSection.appendChild(div)
+            filterSection.appendChild(div);
 
         }
     }
 
+    // render rejected 
 
     function renderRejected() {
         filterSection.innerHTML = "";
         for (let rejected of rejectedList) {
-            div = document.createElement('div');
-            div.className = "flex justify-between bg-white rounded-md p-6";
+            const div = document.createElement('div');
+            div.className = "flex justify-between bg-white rounded-md p-6 my-5";
             div.innerHTML = `<div class="card">
-                    <h1 class="company-name">Mobile First Corp</h1>
+                    <h1 class="company-name">${rejected.companyName}</h1>
                     <h4 class="text-gray-400">React Native Developer</h4>
                     <p class="text-gray-400 text-xs py-3">Remote &middot; Full Time &middot; $1,30,000 - &1,50,000 </p>
                     <button class="not-applied w-25 bg-[#EEF4FF] text-[#002C5C] text-[10px] p-2 rounded-sm">NOT
@@ -139,7 +144,7 @@ mainContainer.addEventListener('click', function (event) {
                         <button
                             class="rejected-btn w-16 border-[1px] cursor-pointer text-red-500 rounded-sm text-[7px] p-1">REJECTED</button>
                     </div>`
-            filterSection.appendChild(div)
+            filterSection.appendChild(div);
 
         }
     }
